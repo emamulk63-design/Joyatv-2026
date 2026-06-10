@@ -2,19 +2,13 @@
 <html lang="bn">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>জয়া ভাইয়ের লাইভ টিভি</title>
 
 <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
 
 <style>
-
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-}
 
 body{
 margin:0;
@@ -40,37 +34,11 @@ background:#111;
 z-index:10;
 }
 
-/* ভিডিও কন্টেইনার */
-.video-container{
-width:100%;
-background:black;
-border-radius:10px;
-overflow:hidden;
-position:relative;
-}
-
 video{
 width:100%;
-height:auto;
 max-height:500px;
 background:black;
-display:block;
-object-fit:contain;
-}
-
-/* ফুলস্ক্রিন মোডের জন্য স্টাইল */
-video:fullscreen{
-width:100vw;
-height:100vh;
-max-height:100vh;
-object-fit:contain;
-background:black;
-}
-
-video:-webkit-full-screen{
-width:100%;
-height:100%;
-object-fit:contain;
+border-radius:10px;
 }
 
 button{
@@ -81,11 +49,6 @@ padding:10px 15px;
 margin:5px;
 border-radius:10px;
 cursor:pointer;
-font-size:14px;
-}
-
-button:hover{
-background:#ff0a1a;
 }
 
 .container{
@@ -93,8 +56,6 @@ display:grid;
 grid-template-columns:repeat(auto-fit,minmax(140px,1fr));
 gap:10px;
 padding:10px;
-max-height:calc(100vh - 400px);
-overflow-y:auto;
 }
 
 .card{
@@ -125,8 +86,6 @@ background:#ff0a1a;
 width:70px;
 height:70px;
 object-fit:contain;
-display:block;
-margin:0 auto;
 }
 
 h3{
@@ -141,12 +100,11 @@ top:0;
 left:0;
 width:100%;
 height:100%;
-background:rgba(0,0,0,0.95);
+background:rgba(0,0,0,0.85);
 display:flex;
 justify-content:center;
 align-items:center;
 z-index:99999;
-cursor:pointer;
 }
 
 #popup img{
@@ -171,39 +129,18 @@ animation:fadeOut 2s ease forwards;
 }
 
 @keyframes fadeOut{
-0%{opacity:1;transform:translateX(-50%) translateY(0);}
+0%{opacity:1;}
 70%{opacity:1;}
-100%{opacity:0;transform:translateX(-50%) translateY(20px);visibility:hidden;}
+100%{opacity:0;visibility:hidden;}
 }
 
-/* স্ক্রলবার স্টাইল */
-.container::-webkit-scrollbar{
-width:5px;
-}
-.container::-webkit-scrollbar-track{
-background:#222;
-}
-.container::-webkit-scrollbar-thumb{
-background:#e50914;
-border-radius:10px;
-}
-
-@media (max-width:768px){
-.card img{
-width:50px;
-height:50px;
-}
-h3{
-font-size:12px;
-}
-}
 </style>
 </head>
 
 <body>
 
-<!-- POPUP - ক্লিক করলেই চলে যাবে -->
-<div id="popup" onclick="closePopup()">
+<!-- POPUP -->
+<div id="popup">
 <img src="https://raw.githubusercontent.com/emamulk63-design/Fifawarldcup2026/main/IMG_20260610_184322_866.jpg">
 </div>
 
@@ -213,9 +150,7 @@ font-size:12px;
 
 <div class="player">
 
-<div class="video-container">
 <video id="video" controls autoplay playsinline></video>
-</div>
 
 <br>
 
@@ -300,11 +235,6 @@ let video=document.getElementById("video");
 let hls;
 let currentActiveCard=null;
 
-/* পপআপ বন্ধ */
-function closePopup(){
-document.getElementById("popup").style.display="none";
-}
-
 /* নোটিফিকেশন দেখানোর ফাংশন */
 function showNotification(channelName){
 let oldNoti=document.querySelector('.notification');
@@ -350,60 +280,12 @@ video.play();
 }
 }
 
-/* ফুলস্ক্রিন - সম্পূর্ণ ঠিক করা */
-function fullScreen(){
-if(video.requestFullscreen){
-video.requestFullscreen();
-}
-else if(video.webkitRequestFullscreen){
-video.webkitRequestFullscreen();
-}
-else if(video.msRequestFullscreen){
-video.msRequestFullscreen();
-}
-// সাফারি মোবাইলের জন্য
-else if(video.webkitEnterFullscreen){
-video.webkitEnterFullscreen();
-}
-}
-
-/* এক্সপান্ড মোড */
-function expand(){
-let p=document.querySelector(".player");
-
-if(p.style.position!="fixed"){
-p.style.position="fixed";
-p.style.top="0";
-p.style.left="0";
-p.style.width="100%";
-p.style.height="100%";
-p.style.background="black";
-p.style.zIndex="99999";
-p.style.padding="10px";
-// ভিডিও পুরো স্ক্রিনে দেখানোর জন্য
-let videoContainer=document.querySelector('.video-container');
-videoContainer.style.height="calc(100% - 60px)";
-video.style.height="100%";
-video.style.maxHeight="100%";
-video.style.objectFit="contain";
-}else{
-p.style.position="sticky";
-p.style.background="#111";
-let videoContainer=document.querySelector('.video-container');
-videoContainer.style.height="auto";
-video.style.height="auto";
-video.style.maxHeight="500px";
-video.style.objectFit="contain";
-}
-}
-
 /* AUTO START - প্রথম চ্যানেলটি লাল করে দিয়ে চালু করা */
 window.onload=function(){
 
-// 2 সেকেন্ড পর পপআপ বন্ধ হবে
 setTimeout(()=>{
-closePopup();
-},2500);
+document.getElementById("popup").style.display="none";
+},2000);
 
 // প্রথম কার্ডটি সিলেক্ট করা (T Sports HD)
 let firstCard=document.querySelector('.card');
@@ -413,17 +295,48 @@ playChannel(firstCard, firstUrl);
 }
 }
 
-/* ফুলস্ক্রিন চেঞ্জ হলে লিসেনার */
-document.addEventListener('fullscreenchange', exitHandler);
-document.addEventListener('webkitfullscreenchange', exitHandler);
-document.addEventListener('mozfullscreenchange', exitHandler);
-document.addEventListener('MSFullscreenChange', exitHandler);
+/* পুরনো play ফাংশন রেখে দিলাম ব্যাকঅপ হিসেবে */
+function play(url){
+if(hls){
+hls.destroy();
+}
+if(Hls.isSupported()){
+hls=new Hls();
+hls.loadSource(url);
+hls.attachMedia(video);
+hls.on(Hls.Events.MANIFEST_PARSED,function(){
+video.play();
+});
+}else{
+video.src=url;
+video.play();
+}
+}
 
-function exitHandler(){
-if(!document.fullscreenElement && !document.webkitFullscreenElement){
-// ফুলস্ক্রিন এক্সিট করলে ভিডিও নরমাল সাইজে ফিরে যাবে
-video.style.width="100%";
-video.style.height="auto";
+/* FULLSCREEN FIX */
+function fullScreen(){
+if(video.requestFullscreen){
+video.requestFullscreen();
+}
+else if(video.webkitEnterFullscreen){
+video.webkitEnterFullscreen();
+}
+}
+
+/* EXPAND MODE */
+function expand(){
+let p=document.querySelector(".player");
+
+if(p.style.position!="fixed"){
+p.style.position="fixed";
+p.style.top="0";
+p.style.left="0";
+p.style.width="100vw";
+p.style.height="100vh";
+p.style.background="black";
+p.style.zIndex="99999";
+}else{
+p.style.position="sticky";
 }
 }
 
