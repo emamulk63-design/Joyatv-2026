@@ -161,6 +161,18 @@ animation:fadeOut 2s ease forwards;
 
 <div class="container">
 
+<!-- Joya TV Bangladesh - নতুন চ্যানেল ১ -->
+<div class="card" data-url="https://1nyaler.streamhostingcdn.top/stream/23/index.m3u8" onclick="playChannel(this, 'https://1nyaler.streamhostingcdn.top/stream/23/index.m3u8')">
+<img src="https://raw.githubusercontent.com/emamulk63-design/Fifawarldcup2026/main/joyatvbangladesh.png">
+<h3>Joya TV Bangladesh</h3>
+</div>
+
+<!-- FIFA Worldcup by Joya - নতুন চ্যানেল ২ -->
+<div class="card" data-url="https://1nyaler.streamhostingcdn.top/stream/32/index.m3u8" onclick="playChannel(this, 'https://1nyaler.streamhostingcdn.top/stream/32/index.m3u8')">
+<img src="https://raw.githubusercontent.com/emamulk63-design/Fifawarldcup2026/main/beinsports1.png">
+<h3>FIFA Worldcup by Joya</h3>
+</div>
+
 <!-- T SPORTS HD -->
 <div class="card" data-url="https://tvsen7.aynaott.com/tsports-hd/index.m3u8" onclick="playChannel(this, 'https://tvsen7.aynaott.com/tsports-hd/index.m3u8')">
 <img src="https://raw.githubusercontent.com/emamulk63-design/Fifawarldcup2026/main/tsports.png">
@@ -280,18 +292,20 @@ video.play();
 }
 }
 
-/* AUTO START - প্রথম চ্যানেলটি লাল করে দিয়ে চালু করা */
+/* AUTO START - এখন Somoy TV FIFA চ্যানেলটি অটো প্লে হবে */
 window.onload=function(){
 
 setTimeout(()=>{
 document.getElementById("popup").style.display="none";
 },2000);
 
-// প্রথম কার্ডটি সিলেক্ট করা (T Sports HD)
-let firstCard=document.querySelector('.card');
-if(firstCard){
-let firstUrl=firstCard.getAttribute('data-url');
-playChannel(firstCard, firstUrl);
+// Somoy TV FIFA কার্ডটি সিলেক্ট করা (পজিশন ৬ নম্বরে আছে, 0 থেকে শুরু করলে 5)
+let allCards=document.querySelectorAll('.card');
+let somoyFifaCard=allCards[5]; // কারণ নতুন ২টি যোগ হওয়ায় Somoy FIFA ৬ষ্ঠ অবস্থানে
+  
+if(somoyFifaCard){
+let somoyFifaUrl=somoyFifaCard.getAttribute('data-url');
+playChannel(somoyFifaCard, somoyFifaUrl);
 }
 }
 
